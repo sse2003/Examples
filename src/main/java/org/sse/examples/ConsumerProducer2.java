@@ -1,18 +1,17 @@
 package org.sse.examples;
 
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ConsumerProducer2<T>
 {
-    private int maxSize;
-    private LinkedList<T> queue = (LinkedList<T>) Collections.synchronizedCollection(new LinkedList<>());
+    private BlockingQueue<T> queue;
 
     public ConsumerProducer2(int maxSize)
     {
-        this.maxSize = maxSize;
+        queue = new LinkedBlockingQueue(maxSize);
     }
 
     public static void main(String[] args)
@@ -25,35 +24,39 @@ public class ConsumerProducer2<T>
         e.execute(() -> {
             for (int i = 0; i < 16; i++)
             {
-                System.out.println("<-- " + cp.consume());
+                try
+                {
+                    System.out.println("<-- " + cp.consume());
+                } catch (InterruptedException ex)
+                {
+                    ex.printStackTrace();
+                }
             }
         });
 
         e.execute(() -> {
             for (int i = 0; i < 16; i++)
             {
-                cp.produce("" + i);
+                try
+                {
+                    cp.produce("" + i);
+                } catch (InterruptedException ex)
+                {
+                    ex.printStackTrace();
+                }
             }
         });
     }
 
-    public void produce(T value)
+    public void produce(T value) throws InterruptedException
     {
-        while (queue.size() >= maxSize)
-        {
-        }
+        queue.put(value);
 
         System.out.println("--> " + value);
-
-        queue.add(value);
     }
 
-    public T consume()
+    public T consume() throws InterruptedException
     {
-        while (queue.isEmpty())
-        {
-        }
-
-        return queue.remove();
+        return queue.take();
     }
 }
