@@ -29,6 +29,7 @@ public class TestSortableDistinctStream
                 .peek(v -> System.out.println("origin: " + v))
                 .sorted()
                 .peek(v -> System.out.println("sorted: " + v))
+                .map(v -> v) // !!! Так работает
                 .distinct()
                 .peek(v -> System.out.println("distinct: " + v))
                 .toList();
