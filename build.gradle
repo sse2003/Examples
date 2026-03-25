@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.6.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.20'
 }
 
 group 'org.example'
@@ -11,15 +11,14 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
-
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
